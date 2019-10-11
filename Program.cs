@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StudentExercises
 {
@@ -56,6 +57,12 @@ namespace StudentExercises
             student4.SlackHandle = "MyFatherWillHearAboutThis";
             student4.Cohort = c33;
 
+            Student student5 = new Student();
+            student5.FirstName = "Neville";
+            student5.LastName = "Longbottom";
+            student5.SlackHandle = "ILongForYourBottom";
+            student5.Cohort = c35;
+
             Instructor instructor1 = new Instructor();
             instructor1.FirstName = "Severus";
             instructor1.LastName = "Snape";
@@ -79,7 +86,7 @@ namespace StudentExercises
 
             instructor1.AssignStudentAnExercise(student1, ChickenMonkey);
             instructor2.AssignStudentAnExercise(student1, CssSelectors);
-            instructor1.AssignStudentAnExercise(student2, Kennel);
+            instructor1.AssignStudentAnExercise(student1, Kennel);
             instructor3.AssignStudentAnExercise(student2, ChickenMonkey);
             instructor2.AssignStudentAnExercise(student3, CssSelectors);
             instructor3.AssignStudentAnExercise(student3, FavoriteThings);
@@ -87,11 +94,19 @@ namespace StudentExercises
             instructor3.AssignStudentAnExercise(student4, FavoriteThings);
 
             List<Student> allStudents = new List<Student>() {
-                student1, student2, student3, student4
+                student1, student2, student3, student4, student5
             };
 
             List<Exercise> allExercises = new List<Exercise>() {
                 ChickenMonkey, CssSelectors, Kennel, FavoriteThings
+            };
+
+            List<Instructor> allInstructors = new List<Instructor>() {
+                instructor1, instructor2, instructor3
+            };
+
+            List<Cohort> allCohorts = new List<Cohort>(){
+                c33, c34, c35
             };
 
             foreach (Exercise exercise in allExercises)
@@ -106,6 +121,23 @@ namespace StudentExercises
                 }
                 Console.WriteLine("-----------------------------------");
             }
+
+            // ------ PART 2 ------
+
+            // 1. List exercises for the JavaScript language by using the Where() LINQ method.
+            List<Exercise> javascriptExercises = allExercises.Where(e => e.Language == "JavaScript").ToList();
+            // 2. List students in a particular cohort by using the Where() LINQ method.
+            List<Student> studentsInC34 = allStudents.Where(s => s.Cohort == c34).ToList();
+            // 3. List instructors in a particular cohort by using the Where() LINQ method.
+            List<Instructor> instructorsInC33 = allInstructors.Where(i => i.Cohort == c33).ToList();
+            // 4. Sort the students by their last name.
+            List<Student> sortedStudents = allStudents.OrderBy(s => s.LastName).ToList();
+            // 5. Display any students that aren't working on any exercises.
+            List<Student> studentsNotWorkingOnExercises = allStudents.Where(s => s.ExerciseList.Count() == 0).ToList();
+            // 6. Which student is working on the most exercises? Make sure one of your students has more exercises than the others.
+            Student studentWorkingOnTheMostExercises = allStudents.OrderByDescending(s => s.ExerciseList.Count()).ToList()[0];
+            // 7. How many students in each cohort?
+            var studentsInEachCohort = allStudents.GroupBy(s => s.Cohort).Select(group => $"{group.Key.Name} has {group.Count()} students");
         }
     }
 }
