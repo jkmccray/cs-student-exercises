@@ -1,4 +1,4 @@
-namespace StudentExercises
+namespace StudentExercises.Models
 {
     public class Instructor : NSSPerson
     {
